@@ -1,0 +1,292 @@
+{
+	"info": {
+		"_postman_id": "00113040-605c-4e5c-b6a5-470aa76263b3",
+		"name": "Bot - Direct Line API v3",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Generate a Direct Line token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0b881c07-1d85-4a30-ab5d-2204256b20f3",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "iAvUs33z1fo.zEtrBHopCRno43PZHFCcivhTJCCQ4EylYREt8HNan9o",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "content-type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://directline.botframework.com/v3/directline/tokens/generate",
+					"protocol": "https",
+					"host": [
+						"directline",
+						"botframework",
+						"com"
+					],
+					"path": [
+						"v3",
+						"directline",
+						"tokens",
+						"generate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open a new bot conversation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "437a0734-40d6-43dd-bc9c-7a341cdc5c70",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"conversationId\", jsonData.conversationId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://directline.botframework.com/v3/directline/conversations",
+					"protocol": "https",
+					"host": [
+						"directline",
+						"botframework",
+						"com"
+					],
+					"path": [
+						"v3",
+						"directline",
+						"conversations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send an activity to bot",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e7ada08f-31aa-42dc-b0c0-cf59344fb5a2",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"activityId\", jsonData.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"message\",\r\n    \"from\": {\r\n        \"id\": \"user1\"\r\n    },\r\n    \"text\": \"Good morning\"\r\n}"
+				},
+				"url": {
+					"raw": "https://directline.botframework.com/v3/directline/conversations/{{conversationId}}/activities",
+					"protocol": "https",
+					"host": [
+						"directline",
+						"botframework",
+						"com"
+					],
+					"path": [
+						"v3",
+						"directline",
+						"conversations",
+						"{{conversationId}}",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve activities with HTTP GET",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "94e439b9-df6f-42d8-9c22-ae4f5c6cc3fb",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"watermark\", jsonData.watermark);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://directline.botframework.com/v3/directline/conversations/{{conversationId}}/activities?watermark={{watermark}}",
+					"protocol": "https",
+					"host": [
+						"directline",
+						"botframework",
+						"com"
+					],
+					"path": [
+						"v3",
+						"directline",
+						"conversations",
+						"{{conversationId}}",
+						"activities"
+					],
+					"query": [
+						{
+							"key": "watermark",
+							"value": "{{watermark}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Send an endOfConversation activity",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"type\": \"endOfConversation\",\r\n    \"from\": {\r\n        \"id\": \"user1\"\r\n    }\r\n}"
+				},
+				"url": {
+					"raw": "https://directline.botframework.com/v3/directline/conversations/{{conversationId}}/activities",
+					"protocol": "https",
+					"host": [
+						"directline",
+						"botframework",
+						"com"
+					],
+					"path": [
+						"v3",
+						"directline",
+						"conversations",
+						"{{conversationId}}",
+						"activities"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "Zz-o1My7Djs.cwA.VWI.a32PyZrqLcpNQpeTn8OtHjllctFWjzFhE0I9WreYX4Q",
+				"type": "string"
+			}
+		]
+	},
+	"variable": [
+		{
+			"id": "e1e8ba0a-18ac-4c45-8a62-bd9f5c8eddfe",
+			"key": "hostDirectLineApi-v3",
+			"value": "directline.botframework.com/v3/directline/conversations",
+			"type": "string"
+		},
+		{
+			"id": "ade05ac1-3d54-4590-ad38-dc91ebed594d",
+			"key": "hostDirectLineApi-v4",
+			"value": "directline.botframework.com/v4/directline/conversations",
+			"type": "string"
+		}
+	]
+}
